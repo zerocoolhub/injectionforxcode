@@ -372,6 +372,7 @@ my $sdk = ($config =~ /-sdk (\w+)/)[0] || 'macosx';
 
 if ( $learnt ) {
 
+    $learnt = `/tmp/injectionforxcode/injectionforxcode.py '$learnt'`;
     $obj = "$arch/injecting_class.o";
     $learnt =~ s@( -o ).*$@$1$InjectionBundle/$obj@
         or die "Could not locate object file in: $learnt";
