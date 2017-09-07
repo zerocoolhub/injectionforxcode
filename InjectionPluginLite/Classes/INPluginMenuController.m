@@ -377,49 +377,10 @@ static NSString *kAppHome = @"http://injection.johnholdsworth.com/",
     if ( [sender isKindOfClass:[NSMenuItem class]] || [sender isKindOfClass:[NSButton class]] )
         self.lastFile = [self lastFileSaving:YES];
 
-    DBGLLDBSession *session = [self session];
-    //NSLog( @"injectSource: %@ %@", sender, session );
-    if ( !session && !sender ) {
-        return;
-    }
-    else if ( !session ) {
-        [self.client alert:@"No project is running."];
-        return;
-    }
-    else if ( !self.lastFile ) {
-//        [self.client alert:@"No source file is selected. "
-//         "Make sure that text is selected and the cursor is inside the file you have edited."];
-        return;
-    }
-    else if ( [self.lastFile rangeOfString:@"\\.(mm?|swift|storyboard)$"
-                                   options:NSRegularExpressionSearch].location == NSNotFound )
-        [self.client alert:@"Only class implementations (.m, .mm, .swift or .storyboard files) can be injected."];
-    else if ( [self.lastFile rangeOfString:@"/main\\.mm?$"
-                                   options:NSRegularExpressionSearch].location != NSNotFound )
-        [self.client alert:@"You can not inject main.m"];
-    else if ( !self.hasSaved ) {
-        [self performSelector:@selector(injectSource:) withObject:self afterDelay:.01];
-        return;
-    }
-    else if ( ![self workspacePath] )
-        [self.client alert:@"No project selected. Make sure the project you are working on is the \"Key Window\"."];
-    else if ( !self.client.connected ) {
-
-        // "unpatched" injection
-        if ( sender ) {
-            self.lastKeyWindow = [self.lastTextView window];
-            [session requestPause];
-            [self performSelector:@selector(loadBundle:) withObject:session afterDelay:.005];
-        }
-        else
-            [self performSelector:@selector(injectSource:) withObject:nil afterDelay:.1];
-    }
-    else {
-        [self.client runScript:@"injectSource.pl" withArg:self.lastFile];
-        self.lastInjected[self.lastFile] = [NSDate new];
-        self.lastFile = nil;
-        [self enableFileWatcher:YES];
-    }
+    [self.client runScript:@"injectSource.pl" withArg:self.lastFile];
+    self.lastInjected[self.lastFile] = [NSDate new];
+    self.lastFile = nil;
+    [self enableFileWatcher:YES];
 }
 
 - (void)loadBundle:(DBGLLDBSession *)session {
