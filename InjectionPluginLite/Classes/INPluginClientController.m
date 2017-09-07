@@ -33,6 +33,18 @@ static NSString *kINUnlockCommand = @"INUnlockCommand", *kINSilent = @"INSilent"
     *kINStoryBoard = @"INStoryboard", *kINOrderFront = @"INOrderFront", *colorFormat = @"%f,%f,%f,%f"/*,
     *pluginAppResources = @"/Applications/Injection Plugin.app/Contents/Resources"*/;
 
+@interface ClientAppConnection : NSObject
+
+@property (readwrite, assign) int clientSocket;
+@property (nonatomic,retain) NSString *executablePath;
+@property (nonatomic,retain) NSString *deviceRoot;
+
+@end
+
+@implementation ClientAppConnection
+
+@end
+
 @interface INPluginClientController() {
 
     IBOutlet NSTextField *colorLabel, *mainSourceLabel, *msgField, *unlockField;
@@ -61,6 +73,8 @@ static NSString *kINUnlockCommand = @"INUnlockCommand", *kINSilent = @"INSilent"
 @property (nonatomic,retain) NSString *deviceRoot;
 @property (nonatomic,retain) NSString *identity;
 @property (nonatomic,retain) NSString *arch;
+
+@property (nonatomic,retain) NSMutableArray *clientConnections;
 
 @end
 
@@ -188,6 +202,7 @@ static NSString *kINUnlockCommand = @"INUnlockCommand", *kINSilent = @"INSilent"
 #pragma mark - Accept connection
 
 - (void)setConnection:(int)appConnection {
+    [self setConnectionVarun:appConnection];/*
     struct _in_header header;
     char path[PATH_MAX];
 
@@ -236,7 +251,7 @@ static NSString *kINUnlockCommand = @"INUnlockCommand", *kINSilent = @"INSilent"
                       self.executablePath, self.arch, appConnection]];
 
     clientSocket = appConnection;
-
+    
     dispatch_sync(dispatch_get_main_queue(), ^{
         for ( NSSlider *slider in [sliders subviews] )
             [self slid:slider];
@@ -245,9 +260,127 @@ static NSString *kINUnlockCommand = @"INUnlockCommand", *kINSilent = @"INSilent"
         [menuController enableFileWatcher:YES];
     });
 
-    [self performSelectorInBackground:@selector(connectionMonitor) withObject:nil];
+    [self performSelectorInBackground:@selector(connectionMonitor) withObject:nil];*/
 }
 
+- (void)setConnectionVarun:(int)appConnection {
+    struct _in_header header;
+    char path[PATH_MAX];
+    
+    [BundleInjection readHeader:&header forPath:path from:appConnection];
+    
+    if ( header.dataLength == INJECTION_MAGIC )
+        [mainSourceLabel
+         performSelectorOnMainThread:@selector(setStringValue:)
+         withObject:self.mainFilePath = [NSString stringWithUTF8String:path]
+         waitUntilDone:NO];
+    else {
+        self.identity = [NSString stringWithUTF8String:path];
+        
+        path[0] = '@';
+        path[header.dataLength+1] = '\000';
+        read( appConnection, path+1, header.dataLength );
+        self.productPath = [NSString stringWithUTF8String:path+1];
+        
+        if ( self.connected && menuController.workspacePath )
+            [self runScript:@"injectStoryboard.pl" withArg:self.productPath];
+        
+        close( appConnection );
+        return;
+    }
+    
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        status = (storyButton.state ? INJECTION_STORYBOARD : 1) | INJECTION_DEVICEIOS8;
+    });
+    write( appConnection, &status, sizeof status );
+    
+    [BundleInjection readHeader:&header forPath:path from:appConnection];
+    if (!self.clientConnections) {
+        self.clientConnections = [NSMutableArray array];
+    }
+    ClientAppConnection *cac = [[ClientAppConnection alloc] init];
+    cac.clientSocket = appConnection;
+    NSString *excPath = [NSString stringWithUTF8String:path];
+    cac.executablePath = excPath;
+    // LEGACY
+//    self.executablePath = excPath;
+    if ( header.dataLength ) {
+        NSString *deviceRoot = excPath;
+        cac.deviceRoot = deviceRoot;
+        // LEGACY
+        //self.deviceRoot = deviceRoot;
+    } else
+        do {
+            [BundleInjection readHeader:&header forPath:path from:appConnection];
+            NSString *deviceRoot = [NSString stringWithUTF8String:path];
+            cac.deviceRoot = deviceRoot;
+            // LEGACY
+            //self.deviceRoot = deviceRoot;
+        } while ( header.dataLength == 0 );
+    [self.clientConnections addObject:cac];
+/*    self.executablePath = [NSString stringWithUTF8String:path];
+    
+    if ( header.dataLength )
+        self.deviceRoot = self.executablePath;
+    else
+        do {
+            [BundleInjection readHeader:&header forPath:path from:appConnection];
+            self.deviceRoot = [NSString stringWithUTF8String:path];
+        } while ( header.dataLength == 0 );*/
+    
+    read( appConnection, path, header.dataLength );
+    self.arch = [NSString stringWithUTF8String:path];
+    
+    [self scriptText:[NSString stringWithFormat:@"Connection from: %@ %@ (%d)",
+                      cac.executablePath, self.arch, appConnection]];
+    
+    // LEGACY
+//    clientSocket = appConnection;
+    
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        for ( NSSlider *slider in [sliders subviews] )
+            [self slid:slider];
+        for ( NSColorWell *well in [wells subviews] )
+            [self colorChanged:well];
+        [menuController enableFileWatcher:YES];
+    });
+    
+    for (ClientAppConnection *cac in self.clientConnections) {
+        [self performSelectorInBackground:@selector(connectionMonitorVarun:) withObject:cac];
+    }
+}
+
+- (void)connectionMonitorVarun:(ClientAppConnection *)cac {
+    int loaded;
+    
+    while( read( cac.clientSocket, &loaded, sizeof loaded ) == sizeof loaded )
+        if ( !fdout )
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self completedVarun:loaded ? nil : @"\n\n{\\colortbl;\\red0\\green0\\blue0;\\red255\\green100\\blue100;}\\cb2"
+                 "*** Bundle load failed ***\\line Consult the Xcode console." cac:cac];
+            });
+/*            [self performSelectorOnMainThread:@selector(completed:)
+                                   withObject:loaded ? nil :
+             @"\n\n{\\colortbl;\\red0\\green0\\blue0;\\red255\\green100\\blue100;}\\cb2"
+             "*** Bundle load failed ***\\line Consult the Xcode console." waitUntilDone:NO];*/
+        else {
+            [BundleInjection writeBytes:loaded withPath:NULL from:cac.clientSocket to:fdout];
+            close( fdout );
+            fdout = 0;
+        }
+    
+    if ( !cac.clientSocket )
+        return;
+    
+    [self scriptText:[@"Disconnected from: " stringByAppendingString:cac.executablePath]];
+    close( cac.clientSocket );
+    cac.clientSocket = 0;
+    //    patchNumber = 1;
+    
+    [menuController enableFileWatcher:NO];
+}
+
+/*
 - (void)connectionMonitor {
     int loaded;
 
@@ -272,15 +405,47 @@ static NSString *kINUnlockCommand = @"INUnlockCommand", *kINSilent = @"INSilent"
 //    patchNumber = 1;
 
     [menuController enableFileWatcher:NO];
+}*/
+
+- (void)connectionKeepaliveVarun:(ClientAppConnection *)cac {
+    if ( cac.clientSocket && !scriptOutput ) {
+        [BundleInjection writeBytes:INJECTION_MAGIC withPath:"" from:0 to:cac.clientSocket];
+        [self performSelector:@selector(connectionKeepaliveVarun:) withObject:cac afterDelay:10.];
+    }
 }
 
+/*
 - (void)connectionKeepalive {
     if ( clientSocket && !scriptOutput ) {
         [BundleInjection writeBytes:INJECTION_MAGIC withPath:"" from:0 to:clientSocket];
         [self performSelector:@selector(connectionKeepalive) withObject:nil afterDelay:10.];
     }
+}*/
+
+- (void)completedVarun:error cac:(ClientAppConnection *)cac {
+    if ( error ) {
+        [self logRTF:error];
+        if ( !self.consolePanel.isVisible )
+            autoOpened = YES;
+        [self.consolePanel orderFront:self];
+        //        [self.errorPanel orderFront:self];
+    }
+    else {
+        [self logRTF:@"\\line Bundle loaded successfully.\\line"];
+        if ( autoOpened )
+            [self.consolePanel orderOut:self];
+        [self.alertPanel orderOut:self];
+        [self.errorPanel orderOut:self];
+        [self mapSimulator];
+        autoOpened = NO;
+    }
+    
+    [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(connectionKeepaliveVarun:) object:cac];
+    [self connectionKeepaliveVarun:cac];
+    [self completeRTF:nil];
 }
 
+/*
 - (void)completed:error {
     if ( error ) {
         [self logRTF:error];
@@ -302,8 +467,11 @@ static NSString *kINUnlockCommand = @"INUnlockCommand", *kINSilent = @"INSilent"
     [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(connectionKeepalive) object:nil];
     [self connectionKeepalive];
     [self completeRTF:nil];
-}
+}*/
 
+/**
+ REVISIT THIS!!!!!
+ */
 - (void)mapSimulator {
     if ( frontButton.state &&
         ([self.executablePath rangeOfString:@"/iPhone Simulator/"].location != NSNotFound ||
@@ -314,12 +482,16 @@ static NSString *kINUnlockCommand = @"INUnlockCommand", *kINSilent = @"INSilent"
 }
 
 - (BOOL)connected {
-    return clientSocket > 0;
+    // REVISIT THIS!!!
+    return YES;
+//    return clientSocket > 0;
 }
 
 #pragma mark - Run script
 
 - (void)runScript:(NSString *)script withArg:(NSString *)selectedFile {
+    [self runScriptVarun:script withArg:selectedFile];
+    /*
     [menuController startProgress];
     if ( ![selectedFile length] )
         [self.consolePanel orderFront:self];
@@ -338,9 +510,70 @@ static NSString *kINUnlockCommand = @"INUnlockCommand", *kINSilent = @"INSilent"
                  @(++patchNumber).stringValue, @(flags).stringValue, unlockField.stringValue,
                  [[menuController serverAddresses] componentsJoinedByString:@" "],
                  selectedFile, menuController.xcodeApp,
-                 [menuController buildDirectory] ?: @"", [menuController logDirectory]]];
+                 [menuController buildDirectory] ?: @"", [menuController logDirectory]]];*/
 }
 
+- (void)runScriptVarun:(NSString *)script withArg:(NSString *)selectedFile {
+    [menuController startProgress];
+    if ( ![selectedFile length] )
+        [self.consolePanel orderFront:self];
+    
+    int flags = (silentButton.state ? 0 : INJECTION_NOTSILENT) |
+    (frontButton.state ? INJECTION_ORDERFRONT : 0) |
+    (storyButton.state ? INJECTION_STORYBOARD : 0);
+    if ( flags != lastFlags )
+        flags |= INJECTION_FLAGCHANGE;
+    lastFlags = flags & ~INJECTION_FLAGCHANGE;
+    
+    for (ClientAppConnection *cac in self.clientConnections) {
+        [self execVarun:[self.scriptPath stringByAppendingPathComponent:script]
+              args:@[self.resourcePath, menuController.workspacePath,
+                     cac.deviceRoot ?: @"", //self.mainFilePath ? self.mainFilePath : @"",
+                     cac.executablePath ?: @"", self.arch ?: @"",
+                     @(++patchNumber).stringValue, @(flags).stringValue, unlockField.stringValue,
+                     [[menuController serverAddresses] componentsJoinedByString:@" "],
+                     selectedFile, menuController.xcodeApp,
+                     [menuController buildDirectory] ?: @"", [menuController logDirectory]]
+               cac:cac];
+        //[NSThread sleepForTimeInterval:5];
+    }
+}
+
+- (void)execVarun:(NSString *)command args:(NSArray *)args cac:(ClientAppConnection *)cac {
+    NSUInteger length = consoleTextView.string.length;
+    if ( length > 100000 )
+        [self clearConsole:nil];
+    else
+        [consoleTextView setSelectedRange:NSMakeRange(length, 0)];
+    
+    INLog( @"Running: %@", command );
+    if ( scriptOutput ) {
+        dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC);
+        dispatch_after(delayTime, dispatch_get_main_queue(), ^{
+            [self execVarun:command args:args cac:cac];
+        });
+        return;
+    }
+    
+    lines = 0, status = 0;
+    scriptOutput = (FILE *)1;
+    
+    task = [NSTask new];
+    task.launchPath = command;
+    task.arguments = args;
+    NSPipe *pipe = [NSPipe pipe];
+    task.standardOutput = pipe;
+    task.standardError = pipe;
+    [task launch];
+    
+    NSFileHandle *standardOutput = [[task standardOutput] fileHandleForReading];
+    if ( (scriptOutput = fdopen( [standardOutput fileDescriptor], "r" )) == NULL )
+        [menuController error:@"Could not run script: %@", command];
+    else
+        [self performSelectorInBackground:@selector(monitorScriptVarun:) withObject:cac];
+}
+
+/*
 - (void)exec:(NSString *)command args:(NSArray *)args {
     NSUInteger length = consoleTextView.string.length;
     if ( length > 100000 )
@@ -373,8 +606,126 @@ static NSString *kINUnlockCommand = @"INUnlockCommand", *kINSilent = @"INSilent"
         [menuController error:@"Could not run script: %@", command];
     else
         [self performSelectorInBackground:@selector(monitorScript) withObject:nil];
+}*/
+
+- (void)monitorScriptVarun:(ClientAppConnection *)cac {
+    char *file = &buffer[1];
+    
+    while ( scriptOutput && fgets( buffer, sizeof buffer-1, scriptOutput ) ) {
+        [menuController performSelectorOnMainThread:@selector(setProgress:)
+                                         withObject:[NSNumber numberWithFloat:lines++/50.]
+                                      waitUntilDone:NO];
+        
+        //INLog( @"%lu %s", strlen( buffer ), buffer );
+        buffer[strlen(buffer)-1] = '\000';
+        
+        switch ( buffer[0] ) {
+            case '<': {
+                if ( (fdin = open( file, O_RDONLY )) < 0 )
+                    NSLog( @"Could not open input file: \"%s\" as: %s", file, strerror( errno ) );
+                if ( fdout ) {
+                    struct stat fdinfo;
+                    if ( fstat( fdin, &fdinfo ) != 0 )
+                        NSLog( @"Could not stat \"%s\" as: %s", file, strerror( errno ) );
+                    [BundleInjection writeBytes:fdinfo.st_size withPath:NULL from:fdin to:fdout];
+                    close( fdout );
+                    fdin = fdout = 0;
+                }
+            }
+                break;
+            case '>':
+                while ( fdout )
+                    [NSThread sleepForTimeInterval:.5];
+                if ( (fdout = open( file, O_CREAT|O_TRUNC|O_WRONLY, 0644 )) < 0 )
+                    NSLog( @"Could not open output file: \"%s\" as: %s", file, strerror( errno ) );
+                break;
+            case '!':
+                switch ( buffer[1] ) {
+                    case '>':
+                        if ( fdin ) {
+                            struct stat fdinfo;
+                            fstat( fdin, &fdinfo );
+                            [BundleInjection writeBytes:S_ISDIR( fdinfo.st_mode ) ?
+                                       INJECTION_MKDIR : fdinfo.st_size withPath:file from:fdin to:cac.clientSocket];
+                            close( fdin );
+                            fdin = 0;
+                            break;
+                        }
+                    case '<':
+                    case '/':
+                    case '@':
+                    case '!':
+                        if ( self.connected ) {
+                            if ( self.withReset )
+                                [BundleInjection writeBytes:INJECTION_MAGIC
+                                                   withPath:"~" from:0 to:cac.clientSocket];
+                            [BundleInjection writeBytes:INJECTION_MAGIC
+                                               withPath:file from:0 to:cac.clientSocket];
+                            self.withReset = NO;
+                        }
+                        else
+                            [self scriptText:@"\\line Application no longer running/connected."];
+                        break;
+                    case '#': {
+                        const char *space = strchr(buffer+2, ' ');
+                        NSString *className = [[NSString alloc] initWithBytes:buffer+2
+                                                                       length:space-(buffer+2)
+                                                                     encoding:NSUTF8StringEncoding];
+                        NSString *file = [NSString stringWithUTF8String:space+1];
+                        menuController.lastInjected[file] = [[NSDate date] dateByAddingTimeInterval:1.];
+                        self.sourceFiles[className] = file;
+                        break;
+                    }
+                    default:
+                        [self scriptText:[NSString stringWithUTF8String:buffer]];
+                        break;
+                }
+                break;
+            case '%': {
+                NSDictionary *attr = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:NSUTF8StringEncoding], NSCharacterEncodingDocumentAttribute, nil];
+                NSAttributedString *as2 = [[NSAttributedString alloc]
+                                           initWithHTML:[NSData dataWithBytes:file length:strlen(file)]
+                                           options:attr documentAttributes:nil];
+                [consoleTextView performSelectorOnMainThread:@selector(insertText:) withObject:as2 waitUntilDone:YES];
+                break;
+            }
+            case '?':
+                NSLog( @"Error from script: %s", file );
+                [menuController error:@"%s", file];
+                break;
+            default:
+                [self scriptText:[NSString stringWithUTF8String:buffer]];
+                break;
+        }
+    }
+    
+    [menuController performSelectorOnMainThread:@selector(setProgress:)
+                                     withObject:[NSNumber numberWithFloat:-1.] waitUntilDone:NO];
+    
+    fclose( scriptOutput );
+    [task waitUntilExit];
+    status = task.terminationStatus;
+    INJECTION_RELEASE( task );
+    task = nil;
+    
+    if ( status )
+        NSLog( @"Status: %d", status );
+    //[NSThread sleepForTimeInterval:.5];
+    
+    if ( status != 0 && scriptOutput )
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self completedVarun:@"\n\n{\\colortbl;\\red0\\green0\\blue0;\\red255\\green100\\blue100;}\\cb2"
+             "*** Bundle build failed ***" cac:cac];
+        });
+/*        [self performSelectorOnMainThread:@selector(completed:)
+                               withObject:@"\n\n{\\colortbl;\\red0\\green0\\blue0;\\red255\\green100\\blue100;}\\cb2"
+         "*** Bundle build failed ***" waitUntilDone:NO];*/
+    
+    [self performSelectorOnMainThread:@selector(completeRTF:) withObject:nil waitUntilDone:NO];
+    scriptOutput = NULL;
 }
 
+/*
 - (void)monitorScript {
     char *file = &buffer[1];
 
@@ -486,7 +837,7 @@ static NSString *kINUnlockCommand = @"INUnlockCommand", *kINSilent = @"INSilent"
     
     [self performSelectorOnMainThread:@selector(completeRTF:) withObject:nil waitUntilDone:NO];
     scriptOutput = NULL;
-}
+}*/
 
 #pragma mark - Tunable Parameters
 
