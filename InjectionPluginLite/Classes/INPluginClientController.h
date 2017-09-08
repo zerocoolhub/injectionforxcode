@@ -37,6 +37,10 @@
 - (void)alert:(NSString *)msg;
 - (void)setConnection:(int)clientConnection;
 - (void)runScript:(NSString *)script withArg:(NSString *)selectedFile;
+- (void) runScript:(NSString *)script
+    withDeviceRoot:(NSString *)deviceRoot
+withExecutablePath:(NSString *)executablePath
+           withArg:(NSString *)selectedFile;
 - (void)writeString:(NSString *)string;
 - (BOOL)connected;
 

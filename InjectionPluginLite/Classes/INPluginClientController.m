@@ -339,6 +339,64 @@ static NSString *kINUnlockCommand = @"INUnlockCommand", *kINSilent = @"INSilent"
                  [[menuController serverAddresses] componentsJoinedByString:@" "],
                  selectedFile, menuController.xcodeApp,
                  [menuController buildDirectory] ?: @"", [menuController logDirectory]]];
+    
+    NSLog(@"-----------------------------------------------------------------------------\n");
+    NSLog(@"SELF.RESOURCE PATH: %@\n", self.resourcePath);
+    NSLog(@"MENUCONTROLLER.WORKSPACEPATH: %@\n", menuController.workspacePath);
+    NSLog(@"SELF.DEVICEROOT: %@\n", self.deviceRoot ?: @"");
+    NSLog(@"SELF.EXECUTABLEPATH: %@\n", self.executablePath ?: @"");
+    NSLog(@"SELF.ARCH: %@\n", self.arch ?: @"");
+    NSLog(@"PATCHNUMBER: %@\n", @(patchNumber).stringValue);
+    NSLog(@"FLAGS: %@\n", @(flags).stringValue);
+    NSLog(@"UNLOCKFIELD: %@\n", unlockField.stringValue);
+    NSLog(@"MENUCONTROLLER.SERVERADDRESSES: %@\n", [[menuController serverAddresses] componentsJoinedByString:@" "]);
+    NSLog(@"SELECTEDFILE: %@\n", selectedFile);
+    NSLog(@"MENUCONTROLLER.XCODEAPP: %@\n", menuController.xcodeApp);
+    NSLog(@"MENUCONTROLLER.BUILDDIRECTORY: %@\n", [menuController buildDirectory] ?: @"");
+    NSLog(@"MENUCONTROLLER.LOGDIRECTORY: %@\n", [menuController logDirectory]);
+    NSLog(@"-----------------------------------------------------------------------------\n");
+}
+
+- (void) runScript:(NSString *)script
+    withDeviceRoot:(NSString *)deviceRoot
+withExecutablePath:(NSString *)executablePath
+           withArg:(NSString *)selectedFile
+{
+    [menuController startProgress];
+    if ( ![selectedFile length] )
+        [self.consolePanel orderFront:self];
+    
+    int flags = (silentButton.state ? 0 : INJECTION_NOTSILENT) |
+    (frontButton.state ? INJECTION_ORDERFRONT : 0) |
+    (storyButton.state ? INJECTION_STORYBOARD : 0);
+    if ( flags != lastFlags )
+        flags |= INJECTION_FLAGCHANGE;
+    lastFlags = flags & ~INJECTION_FLAGCHANGE;
+    
+    [self exec:[self.scriptPath stringByAppendingPathComponent:script]
+          args:@[self.resourcePath, menuController.workspacePath,
+                 deviceRoot ?: @"", //self.mainFilePath ? self.mainFilePath : @"",
+                 executablePath ?: @"", self.arch ?: @"",
+                 @(++patchNumber).stringValue, @(flags).stringValue, unlockField.stringValue,
+                 [[menuController serverAddresses] componentsJoinedByString:@" "],
+                 selectedFile, menuController.xcodeApp,
+                 [menuController buildDirectory] ?: @"", [menuController logDirectory]]];
+    
+    NSLog(@"-----------------------------------------------------------------------------\n");
+    NSLog(@"SELF.RESOURCE PATH: %@\n", self.resourcePath);
+    NSLog(@"MENUCONTROLLER.WORKSPACEPATH: %@\n", menuController.workspacePath);
+    NSLog(@"SELF.DEVICEROOT: %@\n", self.deviceRoot ?: @"");
+    NSLog(@"SELF.EXECUTABLEPATH: %@\n", self.executablePath ?: @"");
+    NSLog(@"SELF.ARCH: %@\n", self.arch ?: @"");
+    NSLog(@"PATCHNUMBER: %@\n", @(patchNumber).stringValue);
+    NSLog(@"FLAGS: %@\n", @(flags).stringValue);
+    NSLog(@"UNLOCKFIELD: %@\n", unlockField.stringValue);
+    NSLog(@"MENUCONTROLLER.SERVERADDRESSES: %@\n", [[menuController serverAddresses] componentsJoinedByString:@" "]);
+    NSLog(@"SELECTEDFILE: %@\n", selectedFile);
+    NSLog(@"MENUCONTROLLER.XCODEAPP: %@\n", menuController.xcodeApp);
+    NSLog(@"MENUCONTROLLER.BUILDDIRECTORY: %@\n", [menuController buildDirectory] ?: @"");
+    NSLog(@"MENUCONTROLLER.LOGDIRECTORY: %@\n", [menuController logDirectory]);
+    NSLog(@"-----------------------------------------------------------------------------\n");
 }
 
 - (void)exec:(NSString *)command args:(NSArray *)args {
