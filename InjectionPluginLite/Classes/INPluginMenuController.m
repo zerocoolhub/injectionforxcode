@@ -377,6 +377,7 @@ static NSString *kAppHome = @"http://injection.johnholdsworth.com/",
     if ( [sender isKindOfClass:[NSMenuItem class]] || [sender isKindOfClass:[NSButton class]] )
         self.lastFile = [self lastFileSaving:YES];
 
+    /*
     DBGLLDBSession *session = [self session];
     //NSLog( @"injectSource: %@ %@", sender, session );
     if ( !session && !sender ) {
@@ -413,13 +414,13 @@ static NSString *kAppHome = @"http://injection.johnholdsworth.com/",
         }
         else
             [self performSelector:@selector(injectSource:) withObject:nil afterDelay:.1];
-    }
-    else {
+    }*/
+//    else {
         [self.client runScript:@"injectSource.pl" withArg:self.lastFile];
         self.lastInjected[self.lastFile] = [NSDate new];
         self.lastFile = nil;
         [self enableFileWatcher:YES];
-    }
+//    }
 }
 
 - (void)loadBundle:(DBGLLDBSession *)session {
