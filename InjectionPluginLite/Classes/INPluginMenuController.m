@@ -377,10 +377,47 @@ static NSString *kAppHome = @"http://injection.johnholdsworth.com/",
     if ( [sender isKindOfClass:[NSMenuItem class]] || [sender isKindOfClass:[NSButton class]] )
         self.lastFile = [self lastFileSaving:YES];
 
+    /*
+    // iPhone SE
+    [self.client runScript:@"injectSource.pl"
+            withDeviceRoot:@"/Users/shankys/Library/Developer/CoreSimulator/Devices/FB6B05A7-55F1-41DE-A8E1-505CFB4E1AEA/data/Containers/Data/Application/29B02DB5-E4E6-421F-B2B9-433094C4250B"
+        withExecutablePath:@"/Users/shankys/Library/Developer/CoreSimulator/Devices/FB6B05A7-55F1-41DE-A8E1-505CFB4E1AEA/data/Containers/Bundle/Application/0EE613E2-8D5B-4FDB-B5A4-3DF76BED4CC2/CalcViewTest.app/CalcViewTest"
+                   withArg:self.lastFile];
+    // iPhone 7
+    [self.client runScript:@"injectSource.pl"
+            withDeviceRoot:@"/Users/shankys/Library/Developer/CoreSimulator/Devices/88B31226-579F-4840-A5A1-131F2D994EF1/data/Containers/Data/Application/06D6143C-FDDC-4DA7-981B-3E47F336D0A6"
+        withExecutablePath:@"/Users/shankys/Library/Developer/CoreSimulator/Devices/88B31226-579F-4840-A5A1-131F2D994EF1/data/Containers/Bundle/Application/6CFDCD46-D9F5-4419-8555-08FC059F4ABE/CalcViewTest.app/CalcViewTest"
+                   withArg:self.lastFile];
+    // iPhone 7 Plus
+    [self.client runScript:@"injectSource.pl"
+            withDeviceRoot:@"/Users/shankys/Library/Developer/CoreSimulator/Devices/F90EA83F-EC92-4BDC-AE3B-E8F59B7D2D6A/data/Containers/Data/Application/920C0895-C985-4139-9ABE-F00D0CBF7216"
+        withExecutablePath:@"/Users/shankys/Library/Developer/CoreSimulator/Devices/F90EA83F-EC92-4BDC-AE3B-E8F59B7D2D6A/data/Containers/Bundle/Application/41300653-CE54-4C59-AD87-2453D762ABAC/CalcViewTest.app/CalcViewTest"
+                   withArg:self.lastFile];
+    
+    [self runExecutableScript:@"/Users/shankys/Github/injectionforxcode/InjectionPluginLite/inject.py"];
+     */
+
     [self.client runScript:@"injectSource.pl" withArg:self.lastFile];
     self.lastInjected[self.lastFile] = [NSDate new];
     self.lastFile = nil;
     [self enableFileWatcher:YES];
+}
+
+- (void)runExecutableScript:(NSString *)filePath {
+    NSTask *task = [[NSTask alloc] init];
+    
+    [task setLaunchPath:filePath];
+    
+    [task setStandardInput:[NSPipe pipe]];
+    [task setStandardOutput:[NSPipe pipe]];
+    
+    [task launch];
+    [task waitUntilExit];
+    
+    NSData *outputData = [[[task standardOutput] fileHandleForReading] readDataToEndOfFile];
+    NSString *resultString = [[NSString alloc] initWithData:outputData encoding:NSUTF8StringEncoding];
+    
+    NSLog(@"%@", resultString);
 }
 
 - (void)loadBundle:(DBGLLDBSession *)session {
