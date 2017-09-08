@@ -847,12 +847,35 @@ static NSString *kINUnlockCommand = @"INUnlockCommand", *kINSilent = @"INSilent"
     } );
 }
 
+- (void)varunWriteString:(NSString *)string {
+    for (ClientAppConnection *cac in self.clientConnections) {
+        dispatch_async( dispatch_get_main_queue(), ^{
+            [BundleInjection writeBytes:INJECTION_MAGIC withPath:[string UTF8String] from:0 to:cac.clientSocket];
+        } );
+    }
+}
+
 - (IBAction)slid:(NSSlider *)sender {
+    [self slidVarun:sender];
+    /*
     if ( !clientSocket ) return;
     int tag = (int)[sender tag];
     NSTextField *val = [vals viewWithTag:tag];
     [val setStringValue:[NSString stringWithFormat:@"%.3f", sender.floatValue]];
-    [self writeString:[NSString stringWithFormat:@"%d%@", tag, [val stringValue]]];
+    [self writeString:[NSString stringWithFormat:@"%d%@", tag, [val stringValue]]];*/
+}
+
+- (IBAction)slidVarun:(NSSlider *)sender {
+    for (ClientAppConnection *cac in self.clientConnections) {
+        if (!cac.clientSocket) {
+            
+        } else {
+            int tag = (int)[sender tag];
+            NSTextField *val = [vals viewWithTag:tag];
+            [val setStringValue:[NSString stringWithFormat:@"%.3f", sender.floatValue]];
+            [self varunWriteString:[NSString stringWithFormat:@"%d%@", tag, [val stringValue]]];
+        }
+    }
 }
 
 - (IBAction)maxChanged:(NSTextField *)sender {
