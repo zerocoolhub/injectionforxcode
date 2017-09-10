@@ -525,21 +525,21 @@ static NSString *kINUnlockCommand = @"INUnlockCommand", *kINSilent = @"INSilent"
         flags |= INJECTION_FLAGCHANGE;
     lastFlags = flags & ~INJECTION_FLAGCHANGE;
     
-    for (ClientAppConnection *cac in self.clientConnections) {
+//    for (ClientAppConnection *cac in self.clientConnections) {
         [self execVarun:[self.scriptPath stringByAppendingPathComponent:script]
               args:@[self.resourcePath, menuController.workspacePath,
-                     cac.deviceRoot ?: @"", //self.mainFilePath ? self.mainFilePath : @"",
-                     cac.executablePath ?: @"", self.arch ?: @"",
+                     ((ClientAppConnection *)self.clientConnections[0]).deviceRoot ?: @"", //self.mainFilePath ? self.mainFilePath : @"",
+                     ((ClientAppConnection *)self.clientConnections[0]).executablePath ?: @"", self.arch ?: @"",
                      @(++patchNumber).stringValue, @(flags).stringValue, unlockField.stringValue,
                      [[menuController serverAddresses] componentsJoinedByString:@" "],
                      selectedFile, menuController.xcodeApp,
-                     [menuController buildDirectory] ?: @"", [menuController logDirectory]]
-               cac:cac];
+                     [menuController buildDirectory] ?: @"", [menuController logDirectory]]];
+//               cac:cac];
         //[NSThread sleepForTimeInterval:5];
-    }
+//    }
 }
 
-- (void)execVarun:(NSString *)command args:(NSArray *)args cac:(ClientAppConnection *)cac {
+- (void)execVarun:(NSString *)command args:(NSArray *)args {// cac:(ClientAppConnection *)cac {
     NSUInteger length = consoleTextView.string.length;
     if ( length > 100000 )
         [self clearConsole:nil];
@@ -550,7 +550,7 @@ static NSString *kINUnlockCommand = @"INUnlockCommand", *kINSilent = @"INSilent"
     if ( scriptOutput ) {
         dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC);
         dispatch_after(delayTime, dispatch_get_main_queue(), ^{
-            [self execVarun:command args:args cac:cac];
+            [self execVarun:command args:args ];//cac:cac];
         });
         return;
     }
@@ -570,7 +570,7 @@ static NSString *kINUnlockCommand = @"INUnlockCommand", *kINSilent = @"INSilent"
     if ( (scriptOutput = fdopen( [standardOutput fileDescriptor], "r" )) == NULL )
         [menuController error:@"Could not run script: %@", command];
     else
-        [self performSelectorInBackground:@selector(monitorScriptVarun:) withObject:cac];
+        [self performSelectorInBackground:@selector(monitorScriptVarun) withObject:nil];// withObject:cac];
 }
 
 /*
@@ -608,7 +608,7 @@ static NSString *kINUnlockCommand = @"INUnlockCommand", *kINSilent = @"INSilent"
         [self performSelectorInBackground:@selector(monitorScript) withObject:nil];
 }*/
 
-- (void)monitorScriptVarun:(ClientAppConnection *)cac {
+- (void)monitorScriptVarun {//:(ClientAppConnection *)cac {
     char *file = &buffer[1];
     
     while ( scriptOutput && fgets( buffer, sizeof buffer-1, scriptOutput ) ) {
@@ -642,6 +642,7 @@ static NSString *kINUnlockCommand = @"INUnlockCommand", *kINSilent = @"INSilent"
             case '!':
                 switch ( buffer[1] ) {
                     case '>':
+                        /*
                         if ( fdin ) {
                             struct stat fdinfo;
                             fstat( fdin, &fdinfo );
@@ -650,18 +651,20 @@ static NSString *kINUnlockCommand = @"INUnlockCommand", *kINSilent = @"INSilent"
                             close( fdin );
                             fdin = 0;
                             break;
-                        }
+                        }*/
                     case '<':
                     case '/':
                     case '@':
                     case '!':
                         if ( self.connected ) {
+                            for (ClientAppConnection *cac in self.clientConnections) {
                             if ( self.withReset )
                                 [BundleInjection writeBytes:INJECTION_MAGIC
                                                    withPath:"~" from:0 to:cac.clientSocket];
                             [BundleInjection writeBytes:INJECTION_MAGIC
                                                withPath:file from:0 to:cac.clientSocket];
                             self.withReset = NO;
+                            }
                         }
                         else
                             [self scriptText:@"\\line Application no longer running/connected."];
@@ -713,10 +716,11 @@ static NSString *kINUnlockCommand = @"INUnlockCommand", *kINSilent = @"INSilent"
     //[NSThread sleepForTimeInterval:.5];
     
     if ( status != 0 && scriptOutput )
+        /*
         dispatch_async(dispatch_get_main_queue(), ^{
             [self completedVarun:@"\n\n{\\colortbl;\\red0\\green0\\blue0;\\red255\\green100\\blue100;}\\cb2"
              "*** Bundle build failed ***" cac:cac];
-        });
+        });*/
 /*        [self performSelectorOnMainThread:@selector(completed:)
                                withObject:@"\n\n{\\colortbl;\\red0\\green0\\blue0;\\red255\\green100\\blue100;}\\cb2"
          "*** Bundle build failed ***" waitUntilDone:NO];*/
