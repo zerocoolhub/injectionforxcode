@@ -375,6 +375,7 @@ static NSString *kINUnlockCommand = @"INUnlockCommand", *kINSilent = @"INSilent"
     [self scriptText:[@"Disconnected from: " stringByAppendingString:cac.executablePath]];
     close( cac.clientSocket );
     cac.clientSocket = 0;
+    [self.clientConnections removeObject:cac];
     //    patchNumber = 1;
     
     [menuController enableFileWatcher:NO];
@@ -525,11 +526,18 @@ static NSString *kINUnlockCommand = @"INUnlockCommand", *kINSilent = @"INSilent"
         flags |= INJECTION_FLAGCHANGE;
     lastFlags = flags & ~INJECTION_FLAGCHANGE;
     
+    // For the injectSource script, we only want to pass in information for the first connected simulator,
+    // (deviceRoot, executablePath) and use that to build the bundle. The resulting bundle will then
+    // be sent to all connected simulators after it is built. Interestingly enough, |deviceRoot| and
+    // |executablePath| seem only superficially useful to injectSource.pl
+    //
+    // Should investigate more thoroughly later to fully understand what's going on
+    ClientAppConnection *firstConnectedApp = self.clientConnections[0];
 //    for (ClientAppConnection *cac in self.clientConnections) {
         [self execVarun:[self.scriptPath stringByAppendingPathComponent:script]
               args:@[self.resourcePath, menuController.workspacePath,
-                     ((ClientAppConnection *)self.clientConnections[0]).deviceRoot ?: @"", //self.mainFilePath ? self.mainFilePath : @"",
-                     ((ClientAppConnection *)self.clientConnections[0]).executablePath ?: @"", self.arch ?: @"",
+                     firstConnectedApp.deviceRoot ?: @"", //self.mainFilePath ? self.mainFilePath : @"",
+                     firstConnectedApp.executablePath ?: @"", self.arch ?: @"",
                      @(++patchNumber).stringValue, @(flags).stringValue, unlockField.stringValue,
                      [[menuController serverAddresses] componentsJoinedByString:@" "],
                      selectedFile, menuController.xcodeApp,
@@ -642,28 +650,30 @@ static NSString *kINUnlockCommand = @"INUnlockCommand", *kINSilent = @"INSilent"
             case '!':
                 switch ( buffer[1] ) {
                     case '>':
-                        /*
-                        if ( fdin ) {
-                            struct stat fdinfo;
-                            fstat( fdin, &fdinfo );
-                            [BundleInjection writeBytes:S_ISDIR( fdinfo.st_mode ) ?
-                                       INJECTION_MKDIR : fdinfo.st_size withPath:file from:fdin to:cac.clientSocket];
-                            close( fdin );
-                            fdin = 0;
-                            break;
-                        }*/
+                        for (ClientAppConnection *cac in self.clientConnections) {
+                            if ( fdin ) {
+                                struct stat fdinfo;
+                                fstat( fdin, &fdinfo );
+                                [BundleInjection writeBytes:S_ISDIR( fdinfo.st_mode ) ?
+                                           INJECTION_MKDIR : fdinfo.st_size withPath:file from:fdin to:cac.clientSocket];
+                                close( fdin );
+                                fdin = 0;
+                                break;
+                            }
+                        }
                     case '<':
                     case '/':
                     case '@':
                     case '!':
                         if ( self.connected ) {
                             for (ClientAppConnection *cac in self.clientConnections) {
-                            if ( self.withReset )
+                                if ( self.withReset ) {
+                                    [BundleInjection writeBytes:INJECTION_MAGIC
+                                                       withPath:"~" from:0 to:cac.clientSocket];
+                                }
                                 [BundleInjection writeBytes:INJECTION_MAGIC
-                                                   withPath:"~" from:0 to:cac.clientSocket];
-                            [BundleInjection writeBytes:INJECTION_MAGIC
-                                               withPath:file from:0 to:cac.clientSocket];
-                            self.withReset = NO;
+                                                   withPath:file from:0 to:cac.clientSocket];
+                                self.withReset = NO;
                             }
                         }
                         else
@@ -715,15 +725,17 @@ static NSString *kINUnlockCommand = @"INUnlockCommand", *kINSilent = @"INSilent"
         NSLog( @"Status: %d", status );
     //[NSThread sleepForTimeInterval:.5];
     
-    if ( status != 0 && scriptOutput )
-        /*
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self completedVarun:@"\n\n{\\colortbl;\\red0\\green0\\blue0;\\red255\\green100\\blue100;}\\cb2"
-             "*** Bundle build failed ***" cac:cac];
-        });*/
+    if ( status != 0 && scriptOutput ) {
+        for (ClientAppConnection *cac in self.clientConnections) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self completedVarun:@"\n\n{\\colortbl;\\red0\\green0\\blue0;\\red255\\green100\\blue100;}\\cb2"
+                 "*** Bundle build failed ***" cac:cac];
+            });
+        }
 /*        [self performSelectorOnMainThread:@selector(completed:)
                                withObject:@"\n\n{\\colortbl;\\red0\\green0\\blue0;\\red255\\green100\\blue100;}\\cb2"
          "*** Bundle build failed ***" waitUntilDone:NO];*/
+    }
     
     [self performSelectorOnMainThread:@selector(completeRTF:) withObject:nil waitUntilDone:NO];
     scriptOutput = NULL;
