@@ -40,4 +40,6 @@
 - (void)writeString:(NSString *)string;
 - (BOOL)connected;
 
+- (void)awakeFromNib;
+
 @end

@@ -32,6 +32,31 @@
 		BBEADCF616B12EAE003EF366 /* projectBuilt.pl in Resources */ = {isa = PBXBuildFile; fileRef = BBEADCF516B12EAE003EF366 /* projectBuilt.pl */; };
 		BBEC640216A756F700DC5E08 /* patchProject.pl in Resources */ = {isa = PBXBuildFile; fileRef = BBEC640016A756F600DC5E08 /* patchProject.pl */; };
 		BBEC640316A756F700DC5E08 /* revertProject.pl in Resources */ = {isa = PBXBuildFile; fileRef = BBEC640116A756F600DC5E08 /* revertProject.pl */; };
+		D77881491F68C0AB002EDDAF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D77881481F68C0AB002EDDAF /* AppDelegate.m */; };
+		D778814C1F68C0AB002EDDAF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D778814B1F68C0AB002EDDAF /* main.m */; };
+		D778814E1F68C0AB002EDDAF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D778814D1F68C0AB002EDDAF /* Assets.xcassets */; };
+		D77881511F68C0AB002EDDAF /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D778814F1F68C0AB002EDDAF /* MainMenu.xib */; };
+		D77881561F68C101002EDDAF /* injectionforxcode.py in Resources */ = {isa = PBXBuildFile; fileRef = 6000D2381F61059300782A72 /* injectionforxcode.py */; };
+		D77881571F68C101002EDDAF /* common.pm in Resources */ = {isa = PBXBuildFile; fileRef = BB5DEF9616A55D2A00E97DD4 /* common.pm */; };
+		D77881581F68C101002EDDAF /* patchProject.pl in Resources */ = {isa = PBXBuildFile; fileRef = BBEC640016A756F600DC5E08 /* patchProject.pl */; };
+		D77881591F68C101002EDDAF /* injectSource.pl in Resources */ = {isa = PBXBuildFile; fileRef = BB5DEF9816A55E1800E97DD4 /* injectSource.pl */; };
+		D778815A1F68C101002EDDAF /* revertProject.pl in Resources */ = {isa = PBXBuildFile; fileRef = BBEC640116A756F600DC5E08 /* revertProject.pl */; };
+		D778815B1F68C101002EDDAF /* openBundle.pl in Resources */ = {isa = PBXBuildFile; fileRef = BB5DEF9916A55E1800E97DD4 /* openBundle.pl */; };
+		D778815C1F68C101002EDDAF /* xprobeLoad.pl in Resources */ = {isa = PBXBuildFile; fileRef = BB781C2C1BA4DDA8006587FD /* xprobeLoad.pl */; };
+		D778815D1F68C101002EDDAF /* evalCode.pl in Resources */ = {isa = PBXBuildFile; fileRef = BB117D2619FD20BD00A9400F /* evalCode.pl */; };
+		D778815E1F68C101002EDDAF /* listDevice.pl in Resources */ = {isa = PBXBuildFile; fileRef = BB8D68AA17F1BB64009E02EE /* listDevice.pl */; };
+		D778815F1F68C101002EDDAF /* projectBuilt.pl in Resources */ = {isa = PBXBuildFile; fileRef = BBEADCF516B12EAE003EF366 /* projectBuilt.pl */; };
+		D77881601F68C101002EDDAF /* injectStoryboard.pl in Resources */ = {isa = PBXBuildFile; fileRef = BB020F6D16B3CC2D00126E33 /* injectStoryboard.pl */; };
+		D77881611F68C153002EDDAF /* INPluginMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = BB3EFFAF16A4B815001F0065 /* INPluginMenuController.m */; };
+		D77881621F68C153002EDDAF /* INPluginClientController.m in Sources */ = {isa = PBXBuildFile; fileRef = BB3EFFAD16A4B815001F0065 /* INPluginClientController.m */; };
+		D77881631F68C153002EDDAF /* FileWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = BB66FF911C469277008634C5 /* FileWatcher.m */; };
+		D77881641F68E43D002EDDAF /* FileWatcher.h in Resources */ = {isa = PBXBuildFile; fileRef = BB66FF901C469277008634C5 /* FileWatcher.h */; };
+		D77881651F68E43D002EDDAF /* BundleInterface.h in Resources */ = {isa = PBXBuildFile; fileRef = BB3EFFD916A541B8001F0065 /* BundleInterface.h */; };
+		D77881661F68E43D002EDDAF /* BundleInjection.h in Resources */ = {isa = PBXBuildFile; fileRef = BB3EFFD816A541B8001F0065 /* BundleInjection.h */; };
+		D77881671F68E43D002EDDAF /* BundleSweeper.h in Resources */ = {isa = PBXBuildFile; fileRef = BBF225B81B20D2CA00E1B001 /* BundleSweeper.h */; };
+		D77881681F68E43D002EDDAF /* IvarAccess.h in Resources */ = {isa = PBXBuildFile; fileRef = BBF225B91B20D2CA00E1B001 /* IvarAccess.h */; };
+		D77881691F68E443002EDDAF /* iOSBundleTemplate in Resources */ = {isa = PBXBuildFile; fileRef = BB3EFFCD16A535C6001F0065 /* iOSBundleTemplate */; };
+		D778816A1F68E443002EDDAF /* OSXBundleTemplate in Resources */ = {isa = PBXBuildFile; fileRef = BB3EFFCE16A535C6001F0065 /* OSXBundleTemplate */; };
 		DA1B5D020E64686800921439 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
@@ -94,6 +119,13 @@
 		BBEC640116A756F600DC5E08 /* revertProject.pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = revertProject.pl; sourceTree = "<group>"; };
 		BBF225B81B20D2CA00E1B001 /* BundleSweeper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BundleSweeper.h; sourceTree = "<group>"; };
 		BBF225B91B20D2CA00E1B001 /* IvarAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IvarAccess.h; sourceTree = "<group>"; };
+		D77881451F68C0AB002EDDAF /* InjectionApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InjectionApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D77881471F68C0AB002EDDAF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		D77881481F68C0AB002EDDAF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		D778814B1F68C0AB002EDDAF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D778814D1F68C0AB002EDDAF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D77881501F68C0AB002EDDAF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		D77881521F68C0AB002EDDAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +136,13 @@
 				DA1B5D020E64686800921439 /* Foundation.framework in Frameworks */,
 				7F2EB89C145057F200E97A87 /* AppKit.framework in Frameworks */,
 				BB63E0FB160CA89800E95F5D /* IOKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D77881421F68C0AB002EDDAF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,6 +160,7 @@
 				BB3EFFCD16A535C6001F0065 /* iOSBundleTemplate */,
 				BB3EFFCE16A535C6001F0065 /* OSXBundleTemplate */,
 				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				D77881461F68C0AB002EDDAF /* InjectionApp */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
 				BB33DC7D1B86BD1D003B8481 /* unhide.xcodeproj */,
 			);
@@ -151,6 +191,7 @@
 			isa = PBXGroup;
 			children = (
 				8D5B49B6048680CD000E48DA /* InjectionPlugin.xcplugin */,
+				D77881451F68C0AB002EDDAF /* InjectionApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -207,6 +248,27 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		D77881461F68C0AB002EDDAF /* InjectionApp */ = {
+			isa = PBXGroup;
+			children = (
+				D77881471F68C0AB002EDDAF /* AppDelegate.h */,
+				D77881481F68C0AB002EDDAF /* AppDelegate.m */,
+				D778814D1F68C0AB002EDDAF /* Assets.xcassets */,
+				D778814F1F68C0AB002EDDAF /* MainMenu.xib */,
+				D77881521F68C0AB002EDDAF /* Info.plist */,
+				D778814A1F68C0AB002EDDAF /* Supporting Files */,
+			);
+			path = InjectionApp;
+			sourceTree = "<group>";
+		};
+		D778814A1F68C0AB002EDDAF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D778814B1F68C0AB002EDDAF /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -230,6 +292,23 @@
 			productReference = 8D5B49B6048680CD000E48DA /* InjectionPlugin.xcplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
+		D77881441F68C0AB002EDDAF /* InjectionApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D77881551F68C0AB002EDDAF /* Build configuration list for PBXNativeTarget "InjectionApp" */;
+			buildPhases = (
+				D77881411F68C0AB002EDDAF /* Sources */,
+				D77881421F68C0AB002EDDAF /* Frameworks */,
+				D77881431F68C0AB002EDDAF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = InjectionApp;
+			productName = InjectionApp;
+			productReference = D77881451F68C0AB002EDDAF /* InjectionApp.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -237,6 +316,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0820;
+				TargetAttributes = {
+					D77881441F68C0AB002EDDAF = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "InjectionPlugin" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -248,6 +333,7 @@
 				French,
 				German,
 				en,
+				Base,
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* QuietXcode */;
 			projectDirPath = "";
@@ -264,6 +350,7 @@
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* InjectionPlugin */,
+				D77881441F68C0AB002EDDAF /* InjectionApp */,
 			);
 		};
 /* End PBXProject section */
@@ -313,6 +400,33 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D77881431F68C0AB002EDDAF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D77881691F68E443002EDDAF /* iOSBundleTemplate in Resources */,
+				D778816A1F68E443002EDDAF /* OSXBundleTemplate in Resources */,
+				D77881641F68E43D002EDDAF /* FileWatcher.h in Resources */,
+				D77881651F68E43D002EDDAF /* BundleInterface.h in Resources */,
+				D77881661F68E43D002EDDAF /* BundleInjection.h in Resources */,
+				D77881671F68E43D002EDDAF /* BundleSweeper.h in Resources */,
+				D77881681F68E43D002EDDAF /* IvarAccess.h in Resources */,
+				D778814E1F68C0AB002EDDAF /* Assets.xcassets in Resources */,
+				D77881571F68C101002EDDAF /* common.pm in Resources */,
+				D77881581F68C101002EDDAF /* patchProject.pl in Resources */,
+				D778815B1F68C101002EDDAF /* openBundle.pl in Resources */,
+				D77881591F68C101002EDDAF /* injectSource.pl in Resources */,
+				D77881601F68C101002EDDAF /* injectStoryboard.pl in Resources */,
+				D778815E1F68C101002EDDAF /* listDevice.pl in Resources */,
+				D778815A1F68C101002EDDAF /* revertProject.pl in Resources */,
+				D778815D1F68C101002EDDAF /* evalCode.pl in Resources */,
+				D778815F1F68C101002EDDAF /* projectBuilt.pl in Resources */,
+				D77881511F68C0AB002EDDAF /* MainMenu.xib in Resources */,
+				D778815C1F68C101002EDDAF /* xprobeLoad.pl in Resources */,
+				D77881561F68C101002EDDAF /* injectionforxcode.py in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -343,6 +457,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D77881411F68C0AB002EDDAF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D77881611F68C153002EDDAF /* INPluginMenuController.m in Sources */,
+				D778814C1F68C0AB002EDDAF /* main.m in Sources */,
+				D77881621F68C153002EDDAF /* INPluginClientController.m in Sources */,
+				D77881631F68C153002EDDAF /* FileWatcher.m in Sources */,
+				D77881491F68C0AB002EDDAF /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -352,6 +478,17 @@
 			targetProxy = BB82D7A91B86C0F3008E76CA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		D778814F1F68C0AB002EDDAF /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D77881501F68C0AB002EDDAF /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1DEB913B08733D840010E9CD /* Debug */ = {
@@ -414,6 +551,40 @@
 			};
 			name = Debug;
 		};
+		D77881531F68C0AB002EDDAF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = InjectionApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zerocool.InjectionApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -432,6 +603,13 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
+		};
+		D77881551F68C0AB002EDDAF /* Build configuration list for PBXNativeTarget "InjectionApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D77881531F68C0AB002EDDAF /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

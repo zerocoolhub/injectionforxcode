@@ -532,16 +532,21 @@ static NSString *kINUnlockCommand = @"INUnlockCommand", *kINSilent = @"INSilent"
     // |executablePath| seem only superficially useful to injectSource.pl
     //
     // Should investigate more thoroughly later to fully understand what's going on
+    NSString *resourcePath = @"/tmp/injectionforxcode"; // self.resourcePath
+    NSString *workspacePath = @"/Users/lex/Github/zerocool/objc/Buck/apps/view_test/CalcViewTest.xcworkspace"; // self.workspacePath
+    NSString *xcodeApp = @"/Applications/Xcode9.app"; // menuController.xcodeApp
+    NSString *buildRoot = @"/Users/lex/Library/Developer/Xcode/DerivedData/CalcViewTest-cyosoaxmmhsrxwfckuogemggyfck/Build"; // menuController.buildDirectory
+    NSString *logDirectory = @"/Users/lex/Library/Developer/Xcode/DerivedData/CalcViewTest-cyosoaxmmhsrxwfckuogemggyfck/Logs/Build"; // menuController.logDirectory
     ClientAppConnection *firstConnectedApp = self.clientConnections[0];
 //    for (ClientAppConnection *cac in self.clientConnections) {
         [self execVarun:[self.scriptPath stringByAppendingPathComponent:script]
-              args:@[self.resourcePath, menuController.workspacePath,
+              args:@[resourcePath, workspacePath,
                      firstConnectedApp.deviceRoot ?: @"", //self.mainFilePath ? self.mainFilePath : @"",
                      firstConnectedApp.executablePath ?: @"", self.arch ?: @"",
                      @(++patchNumber).stringValue, @(flags).stringValue, unlockField.stringValue,
                      [[menuController serverAddresses] componentsJoinedByString:@" "],
-                     selectedFile, menuController.xcodeApp,
-                     [menuController buildDirectory] ?: @"", [menuController logDirectory]]];
+                     selectedFile, xcodeApp,
+                     buildRoot ?: @"", logDirectory]];
 //               cac:cac];
         //[NSThread sleepForTimeInterval:5];
 //    }
