@@ -57,6 +57,11 @@
 		D77881681F68E43D002EDDAF /* IvarAccess.h in Resources */ = {isa = PBXBuildFile; fileRef = BBF225B91B20D2CA00E1B001 /* IvarAccess.h */; };
 		D77881691F68E443002EDDAF /* iOSBundleTemplate in Resources */ = {isa = PBXBuildFile; fileRef = BB3EFFCD16A535C6001F0065 /* iOSBundleTemplate */; };
 		D778816A1F68E443002EDDAF /* OSXBundleTemplate in Resources */ = {isa = PBXBuildFile; fileRef = BB3EFFCE16A535C6001F0065 /* OSXBundleTemplate */; };
+		D778816B1F6A0E55002EDDAF /* INPluginMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB3EFFB016A4B815001F0065 /* INPluginMenuController.xib */; };
+		D778816E1F6A0EBE002EDDAF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D778816D1F6A0EBE002EDDAF /* Foundation.framework */; };
+		D778816F1F6A0EC6002EDDAF /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F2EB899145057EA00E97A87 /* AppKit.framework */; };
+		D77881701F6A0ECA002EDDAF /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB63E0F8160CA89800E95F5D /* IOKit.framework */; };
+		D77881721F6A0FE1002EDDAF /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77881711F6A0FE1002EDDAF /* WebKit.framework */; };
 		DA1B5D020E64686800921439 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
@@ -126,6 +131,8 @@
 		D778814D1F68C0AB002EDDAF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D77881501F68C0AB002EDDAF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		D77881521F68C0AB002EDDAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D778816D1F6A0EBE002EDDAF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D77881711F6A0FE1002EDDAF /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +150,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D77881721F6A0FE1002EDDAF /* WebKit.framework in Frameworks */,
+				D77881701F6A0ECA002EDDAF /* IOKit.framework in Frameworks */,
+				D778816F1F6A0EC6002EDDAF /* AppKit.framework in Frameworks */,
+				D778816E1F6A0EBE002EDDAF /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,6 +174,7 @@
 				D77881461F68C0AB002EDDAF /* InjectionApp */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
 				BB33DC7D1B86BD1D003B8481 /* unhide.xcodeproj */,
+				D778816C1F6A0EBE002EDDAF /* Frameworks */,
 			);
 			name = QuietXcode;
 			sourceTree = "<group>";
@@ -267,6 +279,15 @@
 				D778814B1F68C0AB002EDDAF /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D778816C1F6A0EBE002EDDAF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D77881711F6A0FE1002EDDAF /* WebKit.framework */,
+				D778816D1F6A0EBE002EDDAF /* Foundation.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -411,6 +432,7 @@
 				D77881661F68E43D002EDDAF /* BundleInjection.h in Resources */,
 				D77881671F68E43D002EDDAF /* BundleSweeper.h in Resources */,
 				D77881681F68E43D002EDDAF /* IvarAccess.h in Resources */,
+				D778816B1F6A0E55002EDDAF /* INPluginMenuController.xib in Resources */,
 				D778814E1F68C0AB002EDDAF /* Assets.xcassets in Resources */,
 				D77881571F68C101002EDDAF /* common.pm in Resources */,
 				D77881581F68C101002EDDAF /* patchProject.pl in Resources */,

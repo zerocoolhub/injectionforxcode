@@ -8,15 +8,9 @@
 
 #import "AppDelegate.h"
 
-#import "INPluginClientController.h"
-#import "INPluginMenuController.h"
-
 @interface AppDelegate ()
 
 @property (weak) IBOutlet NSWindow *window;
-
-@property (nonatomic, strong) INPluginMenuController *menuController;
-@property (nonatomic, strong) INPluginClientController *clientController;
 
 @end
 
@@ -32,17 +26,12 @@
                                              types:nil];
     NSURL *fileURL = panel.URL;
     
-    [self.clientController runScript:@"injectSource.pl" withArg:fileURL.path];
+//    [self.clientController runScript:@"injectSource.pl" withArg:fileURL.path];
     
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    INPluginClientController *clientController = [[INPluginClientController alloc] init];
-    [clientController awakeFromNib];
-    INPluginMenuController *menuController = [[INPluginMenuController alloc] init];
-    menuController.client = clientController;
-    
-    self.menuController = menuController;
+
     // Insert code here to initialize your application
 }
 

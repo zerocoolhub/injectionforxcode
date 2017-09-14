@@ -194,6 +194,10 @@ INPluginMenuController *injectionPlugin;
     [self startServer];
 }
 
+- (IBAction)showPanel:(id)sender {
+    [self.client.consolePanel orderFront:sender];
+}
+
 - (IBAction)shortcutChanged:sender {
     [self.defaults setValue:shortcut.stringValue forKey:kINShortcut];
     [self.defaults synchronize];
@@ -439,6 +443,18 @@ static NSString *kAppHome = @"http://injection.johnholdsworth.com/",
 - (IBAction)injectWithReset:(id)sender {
     self.client.withReset = YES;
     [self injectSource:sender];
+}
+
+- (IBAction)injectFile:(id)sender {
+    NSOpenPanel * panel = [NSOpenPanel openPanel];
+    [panel setAllowsMultipleSelection:NO];
+    [panel setCanChooseDirectories:NO];
+    [panel setCanChooseFiles:YES];
+    [panel setFloatingPanel:YES];
+    NSInteger result = [panel runModalForDirectory:NSHomeDirectory() file:nil
+                                             types:nil];
+    NSURL *fileURL = panel.URL;
+    [self.client runScript:@"injectSource.pl" withArg:fileURL.path];
 }
 
 - (void)enableFileWatcher:(BOOL)enabled {

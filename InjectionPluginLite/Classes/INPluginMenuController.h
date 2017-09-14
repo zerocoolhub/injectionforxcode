@@ -46,6 +46,9 @@
 - (NSString *)logDirectory;
 - (NSString *)xcodeApp;
 
+- (IBAction)injectFile:(id)sender;
+- (IBAction)showPanel:(id)sender;
+
 @end
 
 extern INPluginMenuController *injectionPlugin;

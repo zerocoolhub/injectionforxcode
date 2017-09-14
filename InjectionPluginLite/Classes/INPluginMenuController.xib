@@ -607,6 +607,60 @@ Open Injection Bundle Project to resolve these problems?</string>
                 </subviews>
             </view>
         </window>
+        <window title="Injection Licensing" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="364" customClass="NSPanel">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" utility="YES" nonactivatingPanel="YES" HUD="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="183" y="942" width="76" height="67"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
+            <view key="contentView" id="365">
+                <rect key="frame" x="0.0" y="0.0" width="76" height="67"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <webView id="366">
+                        <rect key="frame" x="0.0" y="0.0" width="76" height="67"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12" plugInsEnabled="NO" javaEnabled="NO" javaScriptCanOpenWindowsAutomatically="NO" allowsAnimatedImages="NO" allowsAnimatedImageLooping="NO">
+                            <nil key="identifier"/>
+                        </webPreferences>
+                        <connections>
+                            <outlet property="UIDelegate" destination="-2" id="373"/>
+                            <outlet property="downloadDelegate" destination="-2" id="369"/>
+                            <outlet property="frameLoadDelegate" destination="-2" id="370"/>
+                            <outlet property="policyDelegate" destination="-2" id="371"/>
+                            <outlet property="resourceLoadDelegate" destination="-2" id="372"/>
+                        </connections>
+                    </webView>
+                </subviews>
+            </view>
+        </window>
+        <progressIndicator maxValue="1" style="bar" id="530">
+            <rect key="frame" x="0.0" y="0.0" width="96" height="20"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+        </progressIndicator>
+        <userDefaultsController representsSharedInstance="YES" id="QCI-BN-clb"/>
+        <menu id="fJp-30-aiu">
+            <items>
+                <menuItem title="Item 1" id="7aX-fA-uL0">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+                <menuItem title="Item 2" id="8SC-KP-doI">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+                <menuItem title="Item 3" id="aLh-f3-CuL">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+            </items>
+        </menu>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" frameAutosaveName="" animationBehavior="default" id="pGQ-Ut-KCF">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="213" width="480" height="270"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
+            <view key="contentView" id="8Pu-Jo-34F">
+                <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                <autoresizingMask key="autoresizingMask"/>
+            </view>
+        </window>
         <menu id="305">
             <items>
                 <menuItem title="Injection Intro" id="395">
@@ -731,37 +785,6 @@ Open Injection Bundle Project to resolve these problems?</string>
                 </menuItem>
             </items>
         </menu>
-        <window title="Injection Licensing" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="364" customClass="NSPanel">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" utility="YES" nonactivatingPanel="YES" HUD="YES"/>
-            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="183" y="942" width="76" height="67"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
-            <view key="contentView" id="365">
-                <rect key="frame" x="0.0" y="0.0" width="76" height="67"/>
-                <autoresizingMask key="autoresizingMask"/>
-                <subviews>
-                    <webView id="366">
-                        <rect key="frame" x="0.0" y="0.0" width="76" height="67"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12" plugInsEnabled="NO" javaEnabled="NO" javaScriptCanOpenWindowsAutomatically="NO" allowsAnimatedImages="NO" allowsAnimatedImageLooping="NO">
-                            <nil key="identifier"/>
-                        </webPreferences>
-                        <connections>
-                            <outlet property="UIDelegate" destination="-2" id="373"/>
-                            <outlet property="downloadDelegate" destination="-2" id="369"/>
-                            <outlet property="frameLoadDelegate" destination="-2" id="370"/>
-                            <outlet property="policyDelegate" destination="-2" id="371"/>
-                            <outlet property="resourceLoadDelegate" destination="-2" id="372"/>
-                        </connections>
-                    </webView>
-                </subviews>
-            </view>
-        </window>
-        <progressIndicator maxValue="1" style="bar" id="530">
-            <rect key="frame" x="0.0" y="0.0" width="96" height="20"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-        </progressIndicator>
-        <userDefaultsController representsSharedInstance="YES" id="QCI-BN-clb"/>
     </objects>
     <resources>
         <image name="injection.png" width="128" height="128"/>
