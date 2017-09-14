@@ -32,7 +32,6 @@
 		BBEADCF616B12EAE003EF366 /* projectBuilt.pl in Resources */ = {isa = PBXBuildFile; fileRef = BBEADCF516B12EAE003EF366 /* projectBuilt.pl */; };
 		BBEC640216A756F700DC5E08 /* patchProject.pl in Resources */ = {isa = PBXBuildFile; fileRef = BBEC640016A756F600DC5E08 /* patchProject.pl */; };
 		BBEC640316A756F700DC5E08 /* revertProject.pl in Resources */ = {isa = PBXBuildFile; fileRef = BBEC640116A756F600DC5E08 /* revertProject.pl */; };
-		D77881491F68C0AB002EDDAF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D77881481F68C0AB002EDDAF /* AppDelegate.m */; };
 		D778814C1F68C0AB002EDDAF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D778814B1F68C0AB002EDDAF /* main.m */; };
 		D778814E1F68C0AB002EDDAF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D778814D1F68C0AB002EDDAF /* Assets.xcassets */; };
 		D77881511F68C0AB002EDDAF /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D778814F1F68C0AB002EDDAF /* MainMenu.xib */; };
@@ -125,8 +124,6 @@
 		BBF225B81B20D2CA00E1B001 /* BundleSweeper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BundleSweeper.h; sourceTree = "<group>"; };
 		BBF225B91B20D2CA00E1B001 /* IvarAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IvarAccess.h; sourceTree = "<group>"; };
 		D77881451F68C0AB002EDDAF /* InjectionApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InjectionApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D77881471F68C0AB002EDDAF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		D77881481F68C0AB002EDDAF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		D778814B1F68C0AB002EDDAF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D778814D1F68C0AB002EDDAF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D77881501F68C0AB002EDDAF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -263,8 +260,6 @@
 		D77881461F68C0AB002EDDAF /* InjectionApp */ = {
 			isa = PBXGroup;
 			children = (
-				D77881471F68C0AB002EDDAF /* AppDelegate.h */,
-				D77881481F68C0AB002EDDAF /* AppDelegate.m */,
 				D778814D1F68C0AB002EDDAF /* Assets.xcassets */,
 				D778814F1F68C0AB002EDDAF /* MainMenu.xib */,
 				D77881521F68C0AB002EDDAF /* Info.plist */,
@@ -487,7 +482,6 @@
 				D778814C1F68C0AB002EDDAF /* main.m in Sources */,
 				D77881621F68C153002EDDAF /* INPluginClientController.m in Sources */,
 				D77881631F68C153002EDDAF /* FileWatcher.m in Sources */,
-				D77881491F68C0AB002EDDAF /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
