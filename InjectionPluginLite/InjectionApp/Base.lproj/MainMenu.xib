@@ -32,10 +32,16 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Injection" id="tP2-gj-zzp">
                         <items>
-                            <menuItem title="Open Console" id="t1p-yw-aQY">
+                            <menuItem title="Console" id="t1p-yw-aQY">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="showPanel:" target="Voe-Tx-rLC" id="WAC-VC-V63"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Params" id="tcl-h0-r7i">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="showTunableParams:" target="Voe-Tx-rLC" id="NF4-rk-9S7"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Set Project Dir..." id="TuA-aY-Wwy">

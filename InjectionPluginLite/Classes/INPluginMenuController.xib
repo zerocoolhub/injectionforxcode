@@ -501,7 +501,7 @@
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="282" y="334"/>
+            <point key="canvasLocation" x="211" y="837"/>
         </window>
         <window title="Injection Info" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" appearanceType="aqua" animationBehavior="default" id="271" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" utility="YES" HUD="YES"/>

@@ -49,6 +49,7 @@
 
 - (IBAction)showPanel:(id)sender;
 - (IBAction)setProjectDir:(id)sender;
+- (IBAction)showTunableParams:(id)sender;
 
 @end
 

@@ -456,10 +456,14 @@ static NSString *kAppHome = @"http://injection.johnholdsworth.com/",
     [panel beginWithCompletionHandler:^(NSModalResponse result) {
         if (result == NSFileHandlingPanelOKButton) {
             NSURL *fileURL = panel.URL;
-            self.projectDir = fileURL.path;
-            NSLog(@"projectRoot: %@", self.projectDir);
+            NSString *path = fileURL.path;
+            _projectDir = path;
         }
     }];
+}
+
+- (IBAction)showTunableParams:(id)sender {
+    [self.client.paramsPanel orderFront:sender];
 }
 
 - (void)enableFileWatcher:(BOOL)enabled {
@@ -470,6 +474,7 @@ static NSString *kAppHome = @"http://injection.johnholdsworth.com/",
     if ( enabled && self.watchButton.state ) {
         if ( !self.fileWatcher ) {
             static NSRegularExpression *regexp;
+            /*
             if ( !regexp )
                 regexp = [[NSRegularExpression alloc] initWithPattern:@"^(.+?/([^/]+))/(([^/]*)\\.(xcodeproj|xcworkspace|(idea/misc.xml)))" options:0 error:nil];
 
@@ -477,8 +482,9 @@ static NSString *kAppHome = @"http://injection.johnholdsworth.com/",
             NSRange range = [regexp rangeOfFirstMatchInString:workspacePath options:0
                                                         range:NSMakeRange( 0, workspacePath.length )];
 
-            NSString *projectRoot = [[workspacePath substringWithRange:range] stringByDeletingLastPathComponent];
-            INJECTION_RELEASE( self.fileWatcher = [[FileWatcher alloc] initWithRoot:projectRoot plugin:^( NSArray *filesChanged ) {
+            NSString *projectRoot = [[workspacePath substringWithRange:range] stringByDeletingLastPathComponent];*/
+            // Used to be projectRoot instead of self.projectDir
+            INJECTION_RELEASE( self.fileWatcher = [[FileWatcher alloc] initWithRoot:self.projectDir plugin:^( NSArray *filesChanged ) {
                 NSString *filePath = filesChanged[0];
                 NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
                 NSTimeInterval timeSinceLifeLastInjected = self.lastInjected[filePath] ?
