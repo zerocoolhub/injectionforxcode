@@ -30,6 +30,7 @@
 @property (nonatomic,retain) IBOutlet INPluginClientController *client;
 @property (nonatomic,retain) NSMutableDictionary<NSString *,NSDate *> *lastInjected;
 @property (nonatomic,retain) NSString *lastFile;
+@property (nonatomic, retain) NSString *projectDir;
 
 - (NSUserDefaults *)defaults;
 - (NSArray *)serverAddresses;
@@ -46,8 +47,8 @@
 - (NSString *)logDirectory;
 - (NSString *)xcodeApp;
 
-- (IBAction)injectFile:(id)sender;
 - (IBAction)showPanel:(id)sender;
+- (IBAction)setProjectDir:(id)sender;
 
 @end
 

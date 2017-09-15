@@ -445,16 +445,21 @@ static NSString *kAppHome = @"http://injection.johnholdsworth.com/",
     [self injectSource:sender];
 }
 
-- (IBAction)injectFile:(id)sender {
+- (IBAction)setProjectDir:(id)sender {
     NSOpenPanel * panel = [NSOpenPanel openPanel];
-    [panel setAllowsMultipleSelection:NO];
-    [panel setCanChooseDirectories:NO];
-    [panel setCanChooseFiles:YES];
-    [panel setFloatingPanel:YES];
-    NSInteger result = [panel runModalForDirectory:NSHomeDirectory() file:nil
-                                             types:nil];
-    NSURL *fileURL = panel.URL;
-    [self.client runScript:@"injectSource.pl" withArg:fileURL.path];
+    panel.prompt = @"Select Project Root";
+    panel.allowsMultipleSelection = NO;
+    panel.canCreateDirectories = YES;
+    panel.canChooseDirectories = YES;
+    panel.canChooseFiles = NO;
+    panel.floatingPanel = YES;
+    [panel beginWithCompletionHandler:^(NSModalResponse result) {
+        if (result == NSFileHandlingPanelOKButton) {
+            NSURL *fileURL = panel.URL;
+            self.projectDir = fileURL.path;
+            NSLog(@"projectRoot: %@", self.projectDir);
+        }
+    }];
 }
 
 - (void)enableFileWatcher:(BOOL)enabled {

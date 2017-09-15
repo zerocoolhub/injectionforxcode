@@ -38,10 +38,10 @@
                                     <action selector="showPanel:" target="Voe-Tx-rLC" id="WAC-VC-V63"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Inject File" id="Lri-7E-WEC">
+                            <menuItem title="Set Project Dir..." id="TuA-aY-Wwy">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="injectFile:" target="Voe-Tx-rLC" id="Bb3-PC-PfS"/>
+                                    <action selector="setProjectDir:" target="Voe-Tx-rLC" id="qQb-GH-cNA"/>
                                 </connections>
                             </menuItem>
                         </items>
@@ -50,6 +50,5 @@
             </items>
             <point key="canvasLocation" x="-118" y="326"/>
         </menu>
-        <customObject id="4bP-zl-U2a"/>
     </objects>
 </document>
